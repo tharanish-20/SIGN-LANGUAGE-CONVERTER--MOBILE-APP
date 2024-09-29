@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="510dp"
+    android:layout_height="1100dp"
+    android:background="#000"
+    android:orientation="vertical"
+    tools:context=".Home">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="#01c7f6"
+        android:src="@drawable/title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:orientation="horizontal"
+        android:background="#000"/>
+    <LinearLayout
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/log"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#444"
+            android:textSize="25dp"
+            android:text="LOGIN"
+            android:layout_marginBottom="85dp"/>
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="40dp"
+            android:hint="  UserName..."
+            android:textColorHint="#666"
+            android:textColor="#666"
+            android:background="@drawable/round_edittext"/>
+
+
+        <EditText
+            android:id="@+id/pass"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:hint="  Password..."
+            android:textColorHint="#666"
+            android:textColor="#666"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:background="@drawable/round_edittext"/>
+        <ImageView
+            android:id="@+id/login"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/back"/>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

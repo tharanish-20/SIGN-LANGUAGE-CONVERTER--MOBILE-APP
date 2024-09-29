@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/voice"
+        android:title="Voice Page" />
+    <item
+        android:id="@+id/text"
+        android:title="Text Page" />
+    <item
+        android:id="@+id/video"
+        android:title="Video Page" />
+</menu>
