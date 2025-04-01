@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.speech.tts.TextToSpeech
+import android.util.Base64
 import android.util.Log
+import android.util.Size
 import android.view.Menu
 import android.widget.Button
 import android.widget.ImageView
@@ -20,6 +22,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import java.io.ByteArrayOutputStream
@@ -31,7 +34,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
-
+ 
 class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         private lateinit var cameraExecutor: ExecutorService
@@ -39,12 +42,12 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
         private lateinit var webSocket: WebSocket
         private lateinit var previewView: PreviewView
         private lateinit var tts: TextToSpeech
-        private val SERVER_URI = "ws://192.168.124.177:5000"
+        private val SERVER_URI = "ws://192.168.173.177:5000"
         private lateinit var textView: TextView
         private lateinit var ttsButton: ImageView
         private lateinit var bck: ImageView
         private var isUsingFrontCamera: Boolean = false
-
+        private var cnt: Int = 0
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
                 setContentView(R.layout.activity_main2)
@@ -70,6 +73,7 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
 
                 val scheduler = Executors.newScheduledThreadPool(1)
                 var scheduledTask: ScheduledFuture<*>? = null
+
 
                 captureButton.setOnTouchListener { v, event ->
                         when (event.action) {
@@ -101,13 +105,13 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
                 cameraProviderFuture.addListener(Runnable {
                         val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
                         val preview = Preview.Builder()
-                                .setTargetResolution(android.util.Size(224, 224))
+                                .setTargetResolution(Size(224, 224))
                                 .build().also {
                                         it.setSurfaceProvider(previewView.surfaceProvider)
                                 }
 
                         imageCapture = ImageCapture.Builder()
-                                .setTargetResolution(android.util.Size(224, 224))
+                                .setTargetResolution(Size(224, 224))
                                 .build()
 
                         val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -134,14 +138,14 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
 
                         // Set the Preview with target resolution of 224x224
                         val preview = Preview.Builder()
-                                .setTargetResolution(android.util.Size(224, 224))
+                                .setTargetResolution(Size(224, 224))
                                 .build().also {
                                         it.setSurfaceProvider(previewView.surfaceProvider)
                                 }
 
                         // Set ImageCapture with the same resolution of 224x224
                         imageCapture = ImageCapture.Builder()
-                                .setTargetResolution(android.util.Size(224, 224))
+                                .setTargetResolution(Size(224, 224))
                                 .build()
 
                         try {
@@ -153,12 +157,11 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
                 }, ContextCompat.getMainExecutor(this))
         }
 
-
         private fun startWebSocket() {
                 val client = OkHttpClient()
                 val request = Request.Builder().url(SERVER_URI).build()
                 webSocket = client.newWebSocket(request, object : WebSocketListener() {
-                        override fun onOpen(webSocket: WebSocket, response: okhttp3.Response) {
+                        override fun onOpen(webSocket: WebSocket, response: Response) {
                                 Log.d("WebSocket", "WebSocket Connection Opened")
                         }
 
@@ -169,7 +172,7 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
                                 }
                         }
 
-                        override fun onFailure(webSocket: WebSocket, t: Throwable, response: okhttp3.Response?) {
+                        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                                 Log.e("WebSocket", "WebSocket connection failed: ${t.message}")
                                 t.printStackTrace()
                         }
@@ -229,7 +232,7 @@ class MainActivity2 : AppCompatActivity(), TextToSpeech.OnInitListener {
                 return try {
                         resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                         val byteArray = byteArrayOutputStream.toByteArray()
-                        android.util.Base64.encodeToString(byteArray, android.util.Base64.DEFAULT).also {
+                        Base64.encodeToString(byteArray, Base64.DEFAULT).also {
                                 Log.i("BitmapToBase64", "Image successfully converted to Base64")
                         }
                 } catch (e: Exception) {

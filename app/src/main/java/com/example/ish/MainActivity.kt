@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
     private fun play(sen: String) {
         etx.setText("")
         etx.hint = sen
+        var wods = listOf("hello","what","who","me","them","you","how","where"," ")
         var num = listOf("0","1","2","3","4","5","6","7","8","9")
         var nums = listOf(
             "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
@@ -105,11 +106,11 @@ class MainActivity : AppCompatActivity() {
         var delay: Long = 0
 
         for (word in words) {
-            if(word.lowercase() == "hello")
+            if(word.lowercase() in wods)
                 {
                     Handler().postDelayed({
                         val resourceId = resources.getIdentifier(
-                            "hello",
+                            word.toLowerCase(),
                             "raw",
                             packageName
                         )

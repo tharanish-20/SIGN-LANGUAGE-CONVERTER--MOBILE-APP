@@ -36,7 +36,7 @@ class Home : AppCompatActivity() {
         var logins = mapOf("kishor" to "5520", "tharanish" to "2200")
 
         login.setOnClickListener {
-            if(logins[name.text.toString().toLowerCase()] == pass.text.toString()){
+            if(logins[name.text.toString().toLowerCase().replace(" ","")] == pass.text.toString()){
                 startActivity(Intent(this,menu::class.java))
             }
             else{
